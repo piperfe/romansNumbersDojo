@@ -2,23 +2,65 @@ package roman.numbers;
 
 public class Translate {
 
-    public enum RomanNumber {
-        I, II, III, V
+    private RomanSymbols romanSymbols;
+
+    public Translate(RomanSymbols romanSymbols) {
+        this.romanSymbols = romanSymbols;
     }
 
-    public RomanNumber getNumber(int number) {
+    public String getNumber(int number) {
+
         if(number == 1){
-            return RomanNumber.I;
+            return RomanSymbols.one();
         }
-        else if(number == 2){
-            return RomanNumber.II;
+        if(number == 5){
+            return RomanSymbols.five();
         }
-        else if(number == 3){
-            return RomanNumber.III;
+        if(number == 10){
+            return RomanSymbols.ten();
         }
-        else if(number == 5){
-            return RomanNumber.V;
+
+        int previousSymbol = romanSymbols.previousSymbol(number);
+        int followingSymbol = romanSymbols.followingSymbol(number);
+
+        if(number + 1 == followingSymbol){
+            return withFollowingSymbol(number);
+        }
+        if(number + 1 == previousSymbol + romanSymbols.previousSymbol(previousSymbol)){
+            return withFollowingSymbol2(number);
+        }
+        if(number + 1 == (previousSymbol + previousSymbol) + romanSymbols.previousSymbol(previousSymbol)){
+            return withFollowingSymbol2(number);
+        }
+
+        else if(number > previousSymbol && number < followingSymbol){
+            return withSymbol(previousSymbol, number);
         }
         return null;
     }
+
+
+    private String withFollowingSymbol(int number) {
+        return romanSymbols.one() + getNumber(romanSymbols.followingSymbol(number));
+    }
+
+    private String withFollowingSymbol2(int number) {
+        int unity = number % 10;
+        int numberLeftUnity = (number / 10) * 10;
+        return getNumber(numberLeftUnity) + getNumber(unity);
+    }
+
+    private String withSymbol(int previousSymbol, int number) {
+        int rest = number % previousSymbol;
+
+        if(rest == 0){
+            return getNumber(previousSymbol) + getNumber(number - previousSymbol);
+        }
+        else{
+            return getNumber(previousSymbol) + getNumber(rest);
+        }
+
+    }
+
+
 }
