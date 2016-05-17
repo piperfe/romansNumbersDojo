@@ -26,11 +26,9 @@ public class Translate {
         if(number + 1 == followingSymbol){
             return withFollowingSymbol(number);
         }
-        if(number + 1 == previousSymbol + romanSymbols.previousSymbol(previousSymbol)){
-            return withFollowingSymbol2(number);
-        }
-        if(number + 1 == (previousSymbol + previousSymbol) + romanSymbols.previousSymbol(previousSymbol)){
-            return withFollowingSymbol2(number);
+
+        if(number + 1 == (previousSymbol * (number / 10)) + romanSymbols.previousSymbol(previousSymbol)){
+            return withFollowingSymbol(number);
         }
 
         else if(number > previousSymbol && number < followingSymbol){
@@ -41,13 +39,15 @@ public class Translate {
 
 
     private String withFollowingSymbol(int number) {
-        return romanSymbols.one() + getNumber(romanSymbols.followingSymbol(number));
-    }
-
-    private String withFollowingSymbol2(int number) {
         int unity = number % 10;
         int numberLeftUnity = (number / 10) * 10;
-        return getNumber(numberLeftUnity) + getNumber(unity);
+
+        if (numberLeftUnity == 0) {
+            return romanSymbols.one() + getNumber(romanSymbols.followingSymbol(number));
+        }
+        else {
+            return getNumber(numberLeftUnity) + getNumber(unity);
+        }
     }
 
     private String withSymbol(int previousSymbol, int number) {

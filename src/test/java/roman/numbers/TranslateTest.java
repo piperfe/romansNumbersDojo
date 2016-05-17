@@ -87,6 +87,11 @@ public class TranslateTest {
         assertThat(translate.getNumber(24), is("XXIV"));
     }
 
+    @Test
+    public void number_thirtyfour() {
+        assertThat(translate.getNumber(34), is("XXXIV"));
+    }
+
 
 
 }
