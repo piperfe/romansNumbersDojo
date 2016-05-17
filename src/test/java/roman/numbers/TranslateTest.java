@@ -10,7 +10,7 @@ public class TranslateTest {
 
     private Translate translate;
 
-    private RomanSymbols romanSymbols;
+    private RomanSymbols romanSymbols = new RomanSymbols();
 
     @Before
     public void setUp() {
