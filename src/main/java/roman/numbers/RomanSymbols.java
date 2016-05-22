@@ -24,7 +24,11 @@ public class RomanSymbols {
         return "L";
     }
 
-    List<Integer> romanSymbolsNumeric = asList(0,1,5,10,50);
+    static String onehundred() {
+        return "C";
+    }
+
+    List<Integer> romanSymbolsNumeric = asList(0,1,5,10,50,100);
 
     public Integer previousSymbol(int number) {
         List<Integer> inferiorList = romanSymbolsNumeric.stream().filter(o -> o < number).collect(Collectors.toList());

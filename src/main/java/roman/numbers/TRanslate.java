@@ -19,45 +19,42 @@ public class Translate {
         if(number == 10){
             return RomanSymbols.ten();
         }
-
-        int previousSymbol = romanSymbols.previousSymbol(number);
-        int followingSymbol = romanSymbols.followingSymbol(number);
-
-        if(number + 1 == followingSymbol){
-            return withFollowingSymbol(number);
+        if(number == 50){
+            return RomanSymbols.fifty();
+        }
+        if(number == 100){
+            return RomanSymbols.onehundred();
         }
 
-        if(number + 1 == (previousSymbol * (number / 10)) + romanSymbols.previousSymbol(previousSymbol)){
-            return withFollowingSymbol(number);
+        if(number > romanSymbols.previousSymbol(number)
+                && number < romanSymbols.followingSymbol(number)){
+            return withSymbol(number);
         }
 
-        else if(number > previousSymbol && number < followingSymbol){
-            return withSymbol(previousSymbol, number);
-        }
+
         return null;
     }
 
 
-    private String withFollowingSymbol(int number) {
-        int unity = number % 10;
-        int numberLeftUnity = (number / 10) * 10;
+    private String withSymbol(int number) {
+        int followingSymbol = romanSymbols.followingSymbol(number);
+        int previousSymbol = romanSymbols.previousSymbol(number);
 
-        if (numberLeftUnity == 0) {
-            return romanSymbols.one() + getNumber(romanSymbols.followingSymbol(number));
-        }
-        else {
-            return getNumber(numberLeftUnity) + getNumber(unity);
-        }
-    }
-
-    private String withSymbol(int previousSymbol, int number) {
         int rest = number % previousSymbol;
+        int  numberLeftPreviousSymbol = (number / previousSymbol) * previousSymbol;
+
+        if(number + previousSymbol == followingSymbol){
+            return getNumber(previousSymbol) + getNumber(romanSymbols.followingSymbol(number));
+        }
+        if(number + romanSymbols.previousSymbol(previousSymbol) == followingSymbol){
+            return getNumber(romanSymbols.previousSymbol(previousSymbol)) + getNumber(romanSymbols.followingSymbol(number));
+        }
 
         if(rest == 0){
             return getNumber(previousSymbol) + getNumber(number - previousSymbol);
         }
         else{
-            return getNumber(previousSymbol) + getNumber(rest);
+            return getNumber(numberLeftPreviousSymbol) + getNumber(rest);
         }
 
     }
